@@ -4,6 +4,9 @@ import Cart from './components/cart/Cart';
 import { useState, useEffect } from 'react';
 import products from './data/products';
 import { addToCart, increaseQuantity, decreaseQuantity, deleteItem } from './utils/cartHelpers';
+import { BrowswerRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom'
+import Checkout from './pages/Checkout';
+
 
 function App() {
 
@@ -23,21 +26,36 @@ function App() {
 
 
   return (
-    <div className="App">
-      {/* Product Grid */}
-      <h1>Deez Urban Flavorz</h1>
-      <ProductGrid products={products} addToCart={(product) => addToCart(product, cart, setCart)} cart={cart} setCart={setCart} />
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div className="App">
 
-      {/* Shopping Cart */}
+            {/* Product Grid */}
+            <h1>Deez Urban Flavorz</h1>
+            <ProductGrid products={products} addToCart={(product) => addToCart(product, cart, setCart)} cart={cart} setCart={setCart} />
 
-      <Cart
-        cart={cart}
-        setCart={setCart}
-        totalPrice={totalPrice}
-        increaseQuantity={(itemId) => increaseQuantity(itemId, cart, setCart)}
-        decreaseQuantity={(itemId) => decreaseQuantity(itemId, cart, setCart)}
-        deleteItem={(itemId) => deleteItem(itemId, cart, setCart)} />
-    </div>
+            {/* Shopping Cart */}
+
+            <Cart
+              cart={cart}
+              setCart={setCart}
+              totalPrice={totalPrice}
+              increaseQuantity={(itemId) => increaseQuantity(itemId, cart, setCart)}
+              decreaseQuantity={(itemId) => decreaseQuantity(itemId, cart, setCart)}
+              deleteItem={(itemId) => deleteItem(itemId, cart, setCart)} />
+          </div>
+        }>
+
+      </Route>
+      <Route
+        path="/checkout"
+        element={<Checkout
+          cart={cart}
+          totalPrice={totalPrice} />} />
+    </Routes>
+
   );
 }
 
